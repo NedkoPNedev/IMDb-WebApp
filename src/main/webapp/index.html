@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <br>
+    <h1 id="title">Welcome to the IMDb Search Engine!</h1>
+    <div id="underTitle">
+        ~
+        <p> You can choose among 4 commands. </p> <p> First command - pick a name of a movie and fields and you get the information about the given movie. </p>
+        <p> Second command - choose order type, genres and actors (last two are arbitrary) and you get all the movies with given parameters. </p>
+        <p> Third command - enter TV series name and season and a nice table with the given tv series  pops up. </p>
+        <p> Last command - if you want to get an image of the movie, just enter its name and you get it. </p>
+        ~
+    </div>
+    <br><br>
+
+    <div class="tab">
+        <button class="tablinks" onclick="openMovieTab(event, 'MovieInfo')">Movie Info</button>
+        <button class="tablinks" onclick="openMovieTab(event, 'ListOfMovies')">List of Movies</button>
+        <button class="tablinks" onclick="openMovieTab(event, 'TVSeries')">TV Series</button>
+        <button class="tablinks" onclick="openMovieTab(event, 'MoviePoster')">Movie Poster</button>
+    </div>
+    <div id="MovieInfo" class="tabcontent">
+        <h2> Movie Info </h2>
+        <br>
+        <h3> Movie name : </h3>
+        <input type="text" name="movieName" id = "mvName" size="30">
+        <br><br>
+        <h3> Fields : </h3>
+        <div id="underMovieName">
+
+            <input type="checkbox" id="Metascore" value="Metascore"> Metascore
+            <input type="checkbox" id="BoxOffice" value="BoxOffice"> BoxOffice
+            <input type="checkbox" id="Website" value="Website"> Website
+            <input type="checkbox" id="imdbRating" value="imdbRating"> imdbRating
+            <input type="checkbox" id="imdbVotes" value="imdbVotes"> imdbVotes
+            <input type="checkbox" id="Ratings" value="Ratings"> Ratings
+            <input type="checkbox" id="Runtime" value="Runtime"> Runtime
+            <input type="checkbox" id="Poster" value="Poster"> Poster
+            <br><br>
+            <input type="checkbox" id="Language" value="Language"> Language
+            <input type="checkbox" id="Rated" value="Rated"> Rated
+            <input type="checkbox" id="Production" value="Production"> Production
+            <input type="checkbox" id="Released" value="Released"> Released
+            <input type="checkbox" id="imdbID" value="imdbID"> imdbID
+            <input type="checkbox" id="Plot" value="Plot"> Plot
+            <input type="checkbox" id="Title" value="Title"> Title
+            <input type="checkbox" id="Country" value="Country"> Country
+            <br><br>
+            <input type="checkbox" id="Actors" value="Actors"> Actors
+            <input type="checkbox" id="Response" value="Response"> Response
+            <input type="checkbox" id="Type" value="Type"> Type
+            <input type="checkbox" id="Awards" value="Awards"> Awards
+            <input type="checkbox" id="DVD" value="DVD"> DVD
+            <input type="checkbox" id="Director" value="Director"> Director
+            <input type="checkbox" id="Year" value="Year"> Year
+            <input type="checkbox" id="Genre" value="Genre"> Genre
+            <input type="checkbox" id="Writer" value="Writer"> Writer
+            <br><br>
+        </div>
+        <br><br>
+        <button id="movieButton">Search</button>
+        <br><br>
+        <textarea readonly name = "movieInfo" id="movieInfo" rows="10" cols="100" ></textarea>
+        <hr id="horizontalLine">
+        <br>
+    </div>
+
+    <div id="ListOfMovies" class="tabcontent">
+        <h2>List of Movies</h2>
+        <br>
+        <h3>Order : (asc/desc)</h3>
+        <input type="text" name="order" id="orderId" size="30">
+        <br><br>
+        <h3>Genres :</h3>
+        <input type="text" name="genres" id="genresId" size="30">
+        <br><br>
+        <h3>Actors :</h3>
+        <input type="text" name="actors" id="actorsId" size="30">
+        <br><br>
+        <button  id="movieListButton">Search</button>
+        <br><br>
+        <div class="scrollit">
+            <table id="moviesDataTable" border="1" style="display:none"></table>
+        </div>
+        <br><br>
+        <div id="errorMoviesMessage" style="display:none">There are no movies with given parameters!</div>
+        <hr id="horizontalLine">
+        <br>
+    </div>
+
+    <div id="TVSeries" class="tabcontent">
+        <h2>TV Series :</h2>
+        <br>
+        <h3>TV series name : </h3>
+        <input type="text" name="tvSeriesName" id="tvSeriesName" size="30">
+        <br><br>
+        <h3>Season :</h3>
+        <input type="text" name="seasonValue" id="seasonValue" size="30">
+        <br><br>
+        <button id="tvSeriesButton">Search</button>
+        <br><br>
+        <table id="tvSeriesDataTable" border="1" style="display:none"></table>
+        <br><br>
+        <div id="errorTVSeriesMessage" style="display:none">TV Series not found!</div>
+        <hr id="horizontalLine">
+        <br>
+    </div>
+
+    <div id="MoviePoster" class="tabcontent">
+        <h2>Movie Poster</h2>
+        <br>
+        <h3>Movie name : </h3>
+        <input type="text" name="movieName" id="moviePosterName" size="30">
+        <br><br>
+        <button id="moviePosterButton">Search</button>
+        <br><br>
+        <img src="" id="posterImage">
+        <br><br>
+        <div id="errorPosterMessage" style="display:none">Movie not found!</div>
+        <br><br>
+        <hr id="horizontalLine">
+        <br>
+    </div>
+
+    <footer>
+        <br><br>
+        <a href="https://www.imdb.com/" class="imdb">
+            <img src="if_imdb_43153.png">
+        </a>
+        <br><br>
+    </footer>
+</div>
+
+<script language="JavaScript" src="jquery-3.3.1.js"></script>
+<script language="JavaScript">
+
+function openMovieTab(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+
+	document.getElementById("movieButton").addEventListener ("click", movieFunc, false);
+	document.getElementById("movieListButton").addEventListener ("click", moviesListFunc, false);
+	document.getElementById("tvSeriesButton").addEventListener ("click", tvSeriesFunc, false);
+	document.getElementById("moviePosterButton").addEventListener ("click", moviePosterFunc, false);
+function movieFunc() {
+	if (document.getElementById("mvName").value != "") {
+
+    document.getElementById("movieInfo").value = "";
+	var fieldText="";
+	if (document.getElementById("Metascore").checked == true) fieldText += document.getElementById("Metascore").value + ",";
+	if (document.getElementById("BoxOffice").checked == true) fieldText += document.getElementById("BoxOffice").value + ",";
+	if (document.getElementById("Website").checked == true) fieldText += document.getElementById("Website").value + ",";
+	if (document.getElementById("imdbRating").checked == true) fieldText += document.getElementById("imdbRating").value + ",";
+	if (document.getElementById("imdbVotes").checked == true) fieldText += document.getElementById("imdbVotes").value + ",";
+	if (document.getElementById("Ratings").checked == true) fieldText += document.getElementById("Ratings").value + ",";
+	if (document.getElementById("Runtime").checked == true) fieldText += document.getElementById("Runtime").value + ",";
+	if (document.getElementById("Language").checked == true) fieldText += document.getElementById("Language").value + ",";
+	if (document.getElementById("Rated").checked == true) fieldText += document.getElementById("Rated").value + ",";
+	if (document.getElementById("Production").checked == true) fieldText += document.getElementById("Production").value + ",";
+	if (document.getElementById("Released").checked == true) fieldText += document.getElementById("Released").value + ",";
+	if (document.getElementById("imdbID").checked == true) fieldText += document.getElementById("imdbID").value + ",";
+	if (document.getElementById("Plot").checked == true) fieldText += document.getElementById("Plot").value + ",";
+	if (document.getElementById("Director").checked == true) fieldText += document.getElementById("Director").value + ",";
+	if (document.getElementById("Title").checked == true) fieldText += document.getElementById("Title").value + ",";
+	if (document.getElementById("Actors").checked == true) fieldText += document.getElementById("Actors").value + ",";
+	if (document.getElementById("Response").checked == true) fieldText += document.getElementById("Response").value + ",";
+	if (document.getElementById("Type").checked == true) fieldText += document.getElementById("Type").value + ",";
+	if (document.getElementById("Awards").checked == true) fieldText += document.getElementById("Awards").value + ",";
+	if (document.getElementById("DVD").checked == true) fieldText += document.getElementById("DVD").value + ",";
+	if (document.getElementById("Year").checked == true) fieldText += document.getElementById("Year").value + ",";
+	if (document.getElementById("Poster").checked == true) fieldText += document.getElementById("Poster").value + ",";
+	if (document.getElementById("Country").checked == true) fieldText += document.getElementById("Country").value + ",";
+	if (document.getElementById("Genre").checked == true) fieldText += document.getElementById("Genre").value + ",";
+	if (document.getElementById("Writer").checked == true) fieldText += document.getElementById("Writer").value + ",";
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "http://localhost:8080/rest/imdb/movies/" +
+    document.getElementById("mvName").value + "?fields=" +
+    fieldText, false);
+    xmlHttp.send();
+    var resp = xmlHttp.responseText;
+    var newResp = "";
+    for (var i = 2; i < resp.length; i++) {
+        var nextFieldIndex = i;
+        while (resp[nextFieldIndex] != ',' && resp[nextFieldIndex] != '}') {
+            nextFieldIndex++;
+ 	    if (resp[nextFieldIndex] == ',' && resp[nextFieldIndex + 1] != '"') {
+		nextFieldIndex++;
+	    }
+        }
+
+        if (resp[nextFieldIndex - 1] == 'l' && resp[nextFieldIndex - 2] == 'l' &&
+          resp[nextFieldIndex - 3] == 'u' && resp[nextFieldIndex - 4] == 'n') {
+          i++;
+        } else {
+           while(i < nextFieldIndex - 1) {
+                if (resp[i] != '"') {
+                    newResp += resp[i];
+                }
+           	i++;
+           }
+ 	   newResp += '\n';
+        }
+    }
+    document.getElementById("movieInfo").value = newResp;
+	}
+}
+function moviesListFunc() {
+	document.getElementById("errorMoviesMessage").style.display = "none";
+	document.getElementById("moviesDataTable").style.display = "none";
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "http://localhost:8080/rest/imdb/movies/?order=" +
+    document.getElementById("orderId").value + "&genres=" +
+    document.getElementById("genresId").value + "&actors=" +
+    document.getElementById("actorsId").value, false);
+    xmlHttp.send();
+	var response = xmlHttp.responseText;
+	$("#moviesDataTable tr").remove();
+	if (response == "[]") {
+		document.getElementById("errorMoviesMessage").style.display = "block";
+	} else {
+		document.getElementById("moviesDataTable").style.display = "block";
+    buildHtmlTable('#moviesDataTable', JSON.parse(xmlHttp.responseText));
+	}
+}
+
+function tvSeriesFunc() {
+	if (document.getElementById("tvSeriesName").value != "" && document.getElementById("seasonValue").value != "") {
+		document.getElementById("errorTVSeriesMessage").style.display = "none";
+		document.getElementById("tvSeriesDataTable").style.display = "none";
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.open("GET","http://localhost:8080/rest/imdb/tv-series/?tvSeriesName=" +
+				document.getElementById("tvSeriesName").value + "&seasonValue=" +
+				document.getElementById("seasonValue").value, false);
+		xmlHttp.send();
+		var response = xmlHttp.responseText;
+		$("#tvSeriesDataTable tr").remove();
+		if (response == "[]") {
+			document.getElementById("errorTVSeriesMessage").style.display = "block";
+		} else {
+			document.getElementById("tvSeriesDataTable").style.display = "inline-block";
+		buildHtmlTable('#tvSeriesDataTable', JSON.parse(xmlHttp.responseText));
+		}
+	}
+}
+
+function moviePosterFunc() {
+	document.getElementById("errorPosterMessage").style.display = "none";
+	document.getElementById("posterImage").src = "";
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET","http://localhost:8080/rest/imdb/movies/" +
+    document.getElementById("moviePosterName").value + "/poster", false);
+    xmlHttp.send();
+    var jsonObject = JSON.parse(xmlHttp.responseText);
+	if (jsonObject.error == "ERROR") {
+		document.getElementById("errorPosterMessage").style.display = "block";
+	}
+	else {
+		document.getElementById("posterImage").src = jsonObject.poster;
+	}
+
+}
+
+
+function buildHtmlTable(selector, myList) {
+  var columns = addAllColumnHeaders(myList, selector);
+
+  for (var i = 0; i < myList.length; i++) {
+    var row$ = $('<tr/>');
+    for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+      var cellValue = myList[i][columns[colIndex]];
+      if (cellValue == null) cellValue = "";
+      row$.append($('<td/>').html(cellValue));
+    }
+    $(selector).append(row$);
+  }
+}
+
+function addAllColumnHeaders(myList, selector) {
+  var columnSet = [];
+  var headerTr$ = $('<tr/>');
+
+  for (var i = 0; i < myList.length; i++) {
+    var rowHash = myList[i];
+    for (var key in rowHash) {
+      if ($.inArray(key, columnSet) == -1) {
+        columnSet.push(key);
+        headerTr$.append($('<th/>').html(key));
+      }
+    }
+  }
+  $(selector).append(headerTr$);
+
+  return columnSet;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+bg\uni\sofia\fmi\imdb\handlers\Constants.class
+bg\uni\sofia\fmi\imdb\handlers\MoviesListHandler.class
+bg\uni\sofia\fmi\imdb\exceptions\MovieSearchException.class
+bg\uni\sofia\fmi\imdb\handlers\MovieAbstractHandler.class
+com\imdb\IMDb.class
+bg\uni\sofia\fmi\imdb\handlers\MovieInfoHandler.class
+bg\uni\sofia\fmi\imdb\resources\TVSeries.class
+bg\uni\sofia\fmi\imdb\handlers\MoviePosterHandler.class
+bg\uni\sofia\fmi\imdb\resources\Movie.class
+bg\uni\sofia\fmi\imdb\handlers\TVSeriesHandler.class
