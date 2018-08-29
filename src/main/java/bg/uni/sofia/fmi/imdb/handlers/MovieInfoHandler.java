@@ -32,7 +32,7 @@ public class MovieInfoHandler extends MovieAbstractHandler {
     }
 
     private Map<String, Object> getMovieMap() throws IOException, MovieSearchException {
-        String databaseLocation = System.getProperty("movie.database.location", MOVIES_LOCATION);
+        String databaseLocation = System.getProperty(MOVIE_DATABASE_LOCATION, MOVIES_LOCATION);
         File file = new File(databaseLocation + movieName + JSON);
         if (file.exists()) {
             return getMovieInfoMap(file);

@@ -21,7 +21,8 @@ public class MoviePosterHandler extends MovieAbstractHandler {
     public Movie getMoviePoster() throws IOException, MovieSearchException {
         String newMovieName = getNewName(movieName);
         Movie movie = new Movie();
-        File file = new File(MOVIES_LOCATION + movieName + JSON);
+        String location = System.getProperty(MOVIE_DATABASE_LOCATION, MOVIES_LOCATION);
+        File file = new File(location + movieName + JSON);
         if (file.exists()) {
             Map<String, Object> movieMap = getMovieInfoMap(file);
             movie.setPoster(String.valueOf(movieMap.get(POSTER)));

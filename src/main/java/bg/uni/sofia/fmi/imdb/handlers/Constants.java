@@ -24,4 +24,5 @@ public class Constants {
     public static final String INVALID_SEASON_VAL = "Season value invalid!";
     public static final String SERIES_NOT_FOUND = "Series not found!";
     public static final String SET_ERROR = "ERROR";
+    public static final String MOVIE_DATABASE_LOCATION = "movie.database.location";
 }

@@ -12,7 +12,6 @@ import java.io.IOException;
 import static bg.uni.sofia.fmi.imdb.handlers.Constants.JSON;
 import static bg.uni.sofia.fmi.imdb.handlers.MovieInfoHandlerTest.MOVIE_LOCATION;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
