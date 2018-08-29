@@ -59,14 +59,14 @@ public class MoviesListHandler extends MovieAbstractHandler {
                             .toString();
                     if (genres.length > 0) {
                         for (String genre: genres) {
-                            if (!genresList.contains(genre)){
+                            if (!(genresList.toLowerCase()).contains(removeSpaces(genre).toLowerCase())){
                                 return false;
                             }
                         }
                     }
                     if (actors.length > 0) {
                         for (String actor: actors) {
-                            if (!actorsList.contains(actor)) {
+                            if (!actorsList.contains(removeSpaces(actor).toLowerCase())) {
                                 return false;
                             }
                         }
@@ -92,4 +92,17 @@ public class MoviesListHandler extends MovieAbstractHandler {
     private double getDouble(String value) {
         return (value.equals(N_A)) ? 0.0 : Double.parseDouble(value);
     }
+
+    private String removeSpaces(String oldString) {
+        String newString="";
+        int len = oldString.length();
+        char currentChar;
+        for (int i = 0; i < len; i++) {
+            currentChar = oldString.charAt(i);
+            newString += (currentChar == ' ')? "": currentChar;
+        }
+        return newString;
+    }
+
+
 }
