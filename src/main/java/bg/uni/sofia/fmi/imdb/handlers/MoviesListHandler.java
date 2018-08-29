@@ -66,7 +66,7 @@ public class MoviesListHandler extends MovieAbstractHandler {
                     }
                     if (actors.length > 0) {
                         for (String actor: actors) {
-                            if (!actorsList.contains(removeSpaces(actor).toLowerCase())) {
+                            if (!(removeSpaces(actorsList).toLowerCase()).contains(removeSpaces(actor).toLowerCase())) {
                                 return false;
                             }
                         }
